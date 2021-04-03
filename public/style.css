@@ -28,15 +28,25 @@ body {
   align-items: center;
   padding: 0.5rem;
 }
+.brand a {
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+.header-links a {
+  color: #fff;
+  text-decoration: none;
+}
 .main {
   grid-area: main;
 }
-footer {
+.footer {
   grid-area: footer;
   background-color: #203040;
   color: #fff;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 a {
@@ -44,4 +54,16 @@ a {
 }
 a:hover {
   color: #ff8000;
+}
+
+/* Products and Product styles*/
+
+/* Burguer button*/
+.brand button {
+  font-size: 3rem;
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
 }
