@@ -18,30 +18,17 @@
           <a href="cart.html">Cart</a>
         </div>
       </header>
-      <main class="main">
-        <main>
-          <ul class="products">
-            <li>
-              <div class="product">info</div>
-            </li>
-          </ul>
-        </main>
-        <p>
-          But first, a word from our sponsors:
-          <script>
-            document.write(
-              '<img class="ad" src="/ads/?r=' +
-                Math.floor(Math.random() * 1000) +
-                '"/>'
-            );
-            let info;
-            const products = fetch("http://localhost:3000/products")
-              .then((res) => res.json())
-              .then((data) => (info = data));
-          </script>
-        </p>
-      </main>
+      <main class="main"></main>
       <footer class="footer">Creatella</footer>
     </div>
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="./Components/Products.js"></script>
   </body>
 </html>
