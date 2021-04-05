@@ -6,18 +6,15 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// import React, { setState } from "react";
 var e = React.createElement;
-var setState = ReactDOM.setState;
-var state = ReactDOM.state;
 
-var Products = function (_React$Component) {
-  _inherits(Products, _React$Component);
+var Header = function (_React$Component) {
+  _inherits(Header, _React$Component);
 
-  function Products(props) {
-    _classCallCheck(this, Products);
+  function Header(props) {
+    _classCallCheck(this, Header);
 
-    var _this = _possibleConstructorReturn(this, (Products.__proto__ || Object.getPrototypeOf(Products)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
 
     _this.state = {
       liked: false,
@@ -26,29 +23,41 @@ var Products = function (_React$Component) {
     return _this;
   }
 
-  _createClass(Products, [{
+  _createClass(Header, [{
     key: "render",
     value: function render() {
-      var letData = [];
-      function getData() {
-        var data = fetch("http://localhost:3000/products").then(function (res) {
-          return res.json();
-        }).then(function (res) {
-          return setState({ data: res });
-        });
-      }
-      getData();
-      console.log(letData);
       return React.createElement(
         "div",
         null,
-        "..."
+        React.createElement(
+          "div",
+          { "class": "brand" },
+          React.createElement(
+            "button",
+            { "class": "" },
+            "\u2630"
+          ),
+          React.createElement(
+            "a",
+            { href: "index.html" },
+            "Creatella E-Commerce"
+          )
+        ),
+        React.createElement(
+          "div",
+          { "class": "header-links" },
+          React.createElement(
+            "a",
+            { href: "cart.html" },
+            "Cart"
+          )
+        )
       );
     }
   }]);
 
-  return Products;
+  return Header;
 }(React.Component);
 
-var container = document.querySelector(".main");
-ReactDOM.render(e(Products), container);
+var container = document.querySelector(".header");
+ReactDOM.render(e(Header), container);

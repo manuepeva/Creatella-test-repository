@@ -6,18 +6,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// import React, { setState } from "react";
 var e = React.createElement;
 var setState = ReactDOM.setState;
-var state = ReactDOM.state;
 
-var Products = function (_React$Component) {
-  _inherits(Products, _React$Component);
+var Footer = function (_React$Component) {
+  _inherits(Footer, _React$Component);
 
-  function Products(props) {
-    _classCallCheck(this, Products);
+  function Footer(props) {
+    _classCallCheck(this, Footer);
 
-    var _this = _possibleConstructorReturn(this, (Products.__proto__ || Object.getPrototypeOf(Products)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Footer.__proto__ || Object.getPrototypeOf(Footer)).call(this, props));
 
     _this.state = {
       liked: false,
@@ -26,29 +24,19 @@ var Products = function (_React$Component) {
     return _this;
   }
 
-  _createClass(Products, [{
+  _createClass(Footer, [{
     key: "render",
     value: function render() {
-      var letData = [];
-      function getData() {
-        var data = fetch("http://localhost:3000/products").then(function (res) {
-          return res.json();
-        }).then(function (res) {
-          return setState({ data: res });
-        });
-      }
-      getData();
-      console.log(letData);
       return React.createElement(
         "div",
         null,
-        "..."
+        "Creatella"
       );
     }
   }]);
 
-  return Products;
+  return Footer;
 }(React.Component);
 
-var container = document.querySelector(".main");
-ReactDOM.render(e(Products), container);
+var container = document.querySelector(".footer");
+ReactDOM.render(e(Footer), container);
