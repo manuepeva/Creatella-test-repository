@@ -22,7 +22,7 @@
         <main>
           <ul class="products">
             <li>
-              <div class="product"></div>
+              <div class="product">info</div>
             </li>
           </ul>
         </main>
@@ -34,6 +34,10 @@
                 Math.floor(Math.random() * 1000) +
                 '"/>'
             );
+            let info;
+            const products = fetch("http://localhost:3000/products")
+              .then((res) => res.json())
+              .then((data) => (info = data));
           </script>
         </p>
       </main>
