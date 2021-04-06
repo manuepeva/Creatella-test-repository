@@ -41,15 +41,49 @@
         super(props);
         this.state = {
           items: [],
-        };
-      }
+          load: 0
+        }
+        fetch('http://localhost:3000/products')
+          .then(item => item.json())
+          .then(item => this.setState({ items: item }))
+        console.log(this.state.items, 'items')
+      }  
 
       render() {
-        fetch('http://localhost:3000/products')
-        .then(item => item.json())
-        .then(item => this.setState({items: item}))
+        let timer = '';
+        let idleTime = function () {
+          let time;
+          window.onload = resetTimer;
+          document.onmousemove = resetTimer;
+          document.onkeypress = resetTimer;
+        function logout(){
+          timer = 'test';
+        }
+          function resetTimer() {
+            clearTimeout(time);
+            time = setTimeout(logout(), 2000)
+          }
+        }
+        idleTime();
+        console.log(timer)
+        console.log(this.state.items)
         return (
-          <p>Products</p>
+          <div className="content row">
+            {
+              this.state.items && this.state.items.map(item => (
+                <ul key={item.id} className="products column">
+                  <li className="product-size">
+                    <div className="product">
+                    <div className="item-face" style={{fontSize: item.size*1.5}}>{item.face}</div>
+                    <div className="product-date">Date:{item.date}</div>
+                    <div className="product-price">Price: ${item.price}</div>
+                    <div className="product-s">Size:{item.size}</div>
+                    </div>
+                    </li>
+                </ul>
+              ))
+            }
+          </div>
         );
       }
     }

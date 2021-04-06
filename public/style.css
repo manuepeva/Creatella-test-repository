@@ -18,6 +18,7 @@ body {
   grid-template-columns: 1fr;
   grid-template-rows: 5rem 1fr 5rem;
   height: 100%;
+  word-wrap: break-word;
 }
 .header div {
   grid-area: header;
@@ -62,6 +63,51 @@ a:hover {
 
 /* Products and Product styles*/
 
+.products {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.products li {
+  list-style-type: none;
+  padding: 0;
+  flex: 0 1 21vw;
+  margin: 1rem;
+  width: 25vw;
+  border-bottom: 0.1rem #c0c0c0 solid;
+}
+.product {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.product-date {
+  font-size: 2rem;
+  color: #b4b7b9;
+}
+.product-price {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+.product-s {
+  font-size: 1.6rem;
+  color: #ff8000;
+}
+
+/* Product */
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
 /* Burguer button*/
 .brand button {
   font-size: 3rem;
@@ -74,4 +120,12 @@ a:hover {
 
 .burguer {
   padding: 0.5rem;
+}
+
+/* Media queries */
+
+@media screen and (max-width: 678px) {
+  .products li {
+    width: 66vw;
+  }
 }
