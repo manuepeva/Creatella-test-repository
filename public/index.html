@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -8,11 +8,6 @@
     <title>Products Grid</title>
   </head>
   <body>
-    <div class="grid">
-      <header class="header"></header>
-      <main class="main"></main>
-      <footer class="footer"></footer>
-    </div>
     <script
       src="https://unpkg.com/react@17/umd/react.production.min.js"
       crossorigin
@@ -21,8 +16,99 @@
       src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"
       crossorigin
     ></script>
-    <script src="./Components/Products.js"></script>
-    <script src="./Components/Header.js"></script>
-    <script src="./Components/Footer.js"></script>
+    <script type="text/babel" src="./Components/Products.js"></script>
+    <script type="text/babel" src="./Components/Header.js"></script>
+    <script type="text/babel" src="./Components/Footer.js"></script>
   </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>E-Commerce ReactJS</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js" charset="utf-8"></script>
+
+  <style></style>
+
+  <!-- Products Component -->
+  <script type="text/babel">
+    class Product extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          items: [],
+        };
+      }
+
+      render() {
+        fetch('http://localhost:3000/products')
+        .then(item => item.json())
+        .then(item => this.setState({items: item}))
+        return (
+          <p>Products</p>
+        );
+      }
+    }
+    ReactDOM.render(<Product />, document.querySelector(".main"));
+  </script>
+
+  <!-- Header Component -->
+  <script type="text/babel">
+    class Header extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          correct: null,
+        };
+      }
+
+      render() {
+        return (
+          <div>
+            <div className="brand">
+              <button>&#9776;</button>
+              <a href="index.html" >Creatella E-Commerce</a>
+            </div>
+            <div className="header-links">
+              <a href="cart.html">Cart</a>
+            </div>
+          </div>
+        );
+      }
+    }
+    ReactDOM.render(<Header />, document.querySelector(".header"));
+  </script>
+
+  <!-- Footer Component -->
+  <script type="text/babel">
+    class Footer extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          correct: null,
+        };
+      }
+
+      render() {
+        return (
+          <div>Creatella</div>
+        );
+      }
+    }
+    ReactDOM.render(<Footer />, document.querySelector(".footer"));
+  </script>
+
+
+<body>
+  <div class="grid">
+    <header class="header"></header>
+    <main class="main"></main>
+    <footer class="footer"></footer>
+  </div>
+</body>
+
 </html>
