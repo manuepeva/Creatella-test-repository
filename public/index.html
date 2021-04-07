@@ -34,55 +34,83 @@
 
   <style></style>
 
-  <!-- Products Component -->
+  <!-- Product Component -->
   <script type="text/babel">
     class Product extends React.Component {
       constructor(props) {
         super(props);
         this.state = {
           items: [],
-          load: 0
+          loading: false,
+          currentPage: 1,
+          postPerPage: 10
         }
+        // Fetching data from API
         fetch('http://localhost:3000/products')
           .then(item => item.json())
-          .then(item => this.setState({ items: item }))
+          .then(item => {
+            this.setState({ items: item })
+            this.setState({ loading: true })
+          })
         console.log(this.state.items, 'items')
-      }  
-
-      render() {
-        let timer = '';
-        let idleTime = function () {
-          let time;
-          window.onload = resetTimer;
-          document.onmousemove = resetTimer;
-          document.onkeypress = resetTimer;
-        function logout(){
-          timer = 'test';
-        }
-          function resetTimer() {
-            clearTimeout(time);
-            time = setTimeout(logout(), 2000)
+      }
+      // Catching idle-time
+      componentDidUpdate() {
+        setTimeout(() => {
+          let iddleTime = function () {
+            let time;
+            let timer;
+            window.onload = resetTimer;
+            document.onmousemove = resetTimer;
+            document.onkeypress = resetTimer;
+            function resetTimer() {
+              function setup() {
+                document.querySelector('.footer').innerHTML = '0000'
+              }
+              clearTimeout(time);
+              time = setTimeout(setup, 2000)
+            }
           }
-        }
-        idleTime();
-        console.log(timer)
-        console.log(this.state.items)
+          this.setState({ loading: false })
+          iddleTime()
+        }, 2000)
+        // const pageNumbers = [];
+        // for (let i = 1; i <= Math.ceil(this.state.items.length/this.state.postPerPage); i++) {
+        //   pageNumbers.push(i)
+        // }
+        // console.log(this.state.pageNumbers, 'page numbers')
+      }
+      
+      render() {
+        // if (this.state.loading) {
+        //   return <h2>Loading...</h2>
+        // }
+        const indexOfLastPost = this.state.currentPage * this.state.postPerPage
+        const indexOfFirstPost = indexOfLastPost - this.state.postPerPage
+        const currentPosts = this.state.items.slice(indexOfFirstPost, indexOfLastPost)
         return (
           <div className="content row">
-            {
-              this.state.items && this.state.items.map(item => (
+            // {
+            //   this.state.loading && <p style={{ fontSize: 3 }}>Loading..</p>
+            // }
+            // {
+              currentPosts.map(item => (
                 <ul key={item.id} className="products column">
                   <li className="product-size">
                     <div className="product">
-                    <div className="item-face" style={{fontSize: item.size*1.5}}>{item.face}</div>
-                    <div className="product-date">Date:{item.date}</div>
-                    <div className="product-price">Price: ${item.price}</div>
-                    <div className="product-s">Size:{item.size}</div>
+                      <div className="item-face" style={{ fontSize: item.size * 1.5 }}>{item.face}</div>
+                      <div className="product-date">Date:{item.date}</div>
+                      <div className="product-price">Price: ${item.price}</div>
+                      <div className="product-s">Size:{item.size}</div>
                     </div>
-                    </li>
-                </ul>
-              ))
-            }
+                  </li>
+                  </ul>
+                  ))
+                }
+                <div>
+                  <ul>
+                  </ul>
+                </div>
           </div>
         );
       }
