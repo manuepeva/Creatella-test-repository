@@ -40,19 +40,13 @@
       constructor(props) {
         super(props);
         this.state = {
-          items: [],
           loading: false,
-          currentPage: 1,
-          postPerPage: 10
+          postPerPage: [20],
+          indexOfLastPost: 20,
+          indexOfFirstPost: 1,
+          currentPosts: []
+          // pageNumbers: []
         }
-        // Fetching data from API
-        fetch('http://localhost:3000/products')
-          .then(item => item.json())
-          .then(item => {
-            this.setState({ items: item })
-            this.setState({ loading: true })
-          })
-        console.log(this.state.items, 'items')
       }
       // Catching idle-time
       componentDidUpdate() {
@@ -63,38 +57,78 @@
             window.onload = resetTimer;
             document.onmousemove = resetTimer;
             document.onkeypress = resetTimer;
+            function setup() {
+              document.querySelector('.footer').innerHTML = '0000'
+            }
             function resetTimer() {
-              function setup() {
-                document.querySelector('.footer').innerHTML = '0000'
-              }
               clearTimeout(time);
+              // this.setState({loading: false})
               time = setTimeout(setup, 2000)
+              // this.setState({loading: false})
             }
           }
-          this.setState({ loading: false })
           iddleTime()
         }, 2000)
-        // const pageNumbers = [];
-        // for (let i = 1; i <= Math.ceil(this.state.items.length/this.state.postPerPage); i++) {
-        //   pageNumbers.push(i)
-        // }
-        // console.log(this.state.pageNumbers, 'page numbers')
       }
-      
+      componentDidMount() {
+        // Fetching data from API
+        const loadData = async () => {
+          console.log(this.state.indexOfFirstPost, 'first post')
+        console.log(this.state.indexOfLastPost, 'last post')
+          const response = await fetch(`http://localhost:3000/products?_page=${this.state.indexOfFirstPost}}&_limit=${this.state.indexOfLastPost}`)
+          .then(item => item.json())
+          .then(item => {
+            this.setState({ currentPosts: item })
+          })
+        }
+       loadData()
+        window.addEventListener('scroll', () => {
+          const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+          // Load more data
+            const loadMoreItems = () => {
+              this.setState({indexOfFirstPost: this.state.indexOfFirstPost + 20})
+            this.setState({indexOfLastPost: this.state.indexOfLastPost + 20})
+            console.log(this.state.currentPosts, 'ucrrent psts')
+            console.log('test from load more items')
+            }
+          if (clientHeight + scrollTop >= scrollHeight) {
+            // Show animation
+            showLoading()
+            loadMoreItems()
+            loadData()
+          }
+        })
+        const loading = document.querySelector('.loading')
+        function showLoading() {
+          loading.classList.add('show')
+        }
+        // Hide the loading animation
+        loading.classList.remove('show')
+        // const indexOfLastPost = this.state.currentPage * this.state.postPerPage
+        // const indexOfFirstPost = indexOfLastPost - this.state.postPerPage
+        // const currentPosts = this.state.items.slice(indexOfFirstPost, indexOfLastPost)
+      }
+      componentDidUpdate() {
+        // console.log(this.state.indexOfFirstPost, 'first post')
+        // console.log(this.state.indexOfLastPost, 'last post')
+      }
       render() {
-        // if (this.state.loading) {
-        //   return <h2>Loading...</h2>
-        // }
-        const indexOfLastPost = this.state.currentPage * this.state.postPerPage
-        const indexOfFirstPost = indexOfLastPost - this.state.postPerPage
-        const currentPosts = this.state.items.slice(indexOfFirstPost, indexOfLastPost)
         return (
           <div className="content row">
-            // {
-            //   this.state.loading && <p style={{ fontSize: 3 }}>Loading..</p>
-            // }
-            // {
-              currentPosts.map(item => (
+            <div className="row">
+              <select className="column">
+                <option value="price">Price</option>
+                <option value="size">Size</option>
+                <option value="id">Id</option>
+              </select>
+              <select className="column">
+                <option value="price">Price</option>
+                <option value="size">Size</option>
+                <option value="id">Id</option>
+              </select>
+            </div>
+            {
+              this.state.currentPosts.map(item => (
                 <ul key={item.id} className="products column">
                   <li className="product-size">
                     <div className="product">
@@ -104,13 +138,20 @@
                       <div className="product-s">Size:{item.size}</div>
                     </div>
                   </li>
-                  </ul>
-                  ))
-                }
-                <div>
-                  <ul>
-                  </ul>
-                </div>
+                </ul>
+              ))
+            }
+
+            <div className="loading">
+              <div className="ball"></div>
+              <div className="ball"></div>
+              <div className="ball"></div>
+            </div>
+            <div className="row">
+              <ul>
+
+              </ul>
+            </div>
           </div>
         );
       }
