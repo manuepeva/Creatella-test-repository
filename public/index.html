@@ -1,27 +1,3 @@
-<!-- <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Products Grid</title>
-  </head>
-  <body>
-    <script
-      src="https://unpkg.com/react@17/umd/react.production.min.js"
-      crossorigin
-    ></script>
-    <script
-      src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"
-      crossorigin
-    ></script>
-    <script type="text/babel" src="./Components/Products.js"></script>
-    <script type="text/babel" src="./Components/Header.js"></script>
-    <script type="text/babel" src="./Components/Footer.js"></script>
-  </body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,15 +18,15 @@
         this.state = {
           loading: false,
           postPerPage: [20],
-          indexOfLastPost: 20,
-          indexOfFirstPost: 1,
-          currentPosts: []
-          // pageNumbers: []
+          indexOfLastPost: [20],
+          indexOfFirstPost: [1],
+          currentPosts: [],
+          filter: ''
         }
       }
-      // Catching idle-time
       componentDidUpdate() {
         setTimeout(() => {
+          // Catching idle-time
           let iddleTime = function () {
             let time;
             let timer;
@@ -58,7 +34,7 @@
             document.onmousemove = resetTimer;
             document.onkeypress = resetTimer;
             function setup() {
-              document.querySelector('.footer').innerHTML = '0000'
+              // loadData()
             }
             function resetTimer() {
               clearTimeout(time);
@@ -73,55 +49,71 @@
       componentDidMount() {
         // Fetching data from API
         const loadData = async () => {
-          console.log(this.state.indexOfFirstPost, 'first post')
-        console.log(this.state.indexOfLastPost, 'last post')
-          const response = await fetch(`http://localhost:3000/products?_page=${this.state.indexOfFirstPost}}&_limit=${this.state.indexOfLastPost}`)
-          .then(item => item.json())
-          .then(item => {
-            this.setState({ currentPosts: item })
-          })
+          const { indexOfFirstPost, indexOfLastPost, currentPosts, filter } = this.state
+          const response = await fetch(`http://localhost:3000/products?_sort=${filter}?_page=${indexOfFirstPost}}&_limit=${indexOfLastPost}`)
+            .then(item => item.json())
+            .then(item => {
+              this.setState({ currentPosts: item })
+              this.setState({
+                indexOfFirstPost: [indexOfFirstPost * 2]
+              })
+              this.setState({
+                indexOfLastPost: [indexOfLastPost * 2]
+              })
+            })
         }
-       loadData()
+        loadData()
         window.addEventListener('scroll', () => {
           const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-          // Load more data
-            const loadMoreItems = () => {
-              this.setState({indexOfFirstPost: this.state.indexOfFirstPost + 20})
-            this.setState({indexOfLastPost: this.state.indexOfLastPost + 20})
-            console.log(this.state.currentPosts, 'ucrrent psts')
-            console.log('test from load more items')
-            }
           if (clientHeight + scrollTop >= scrollHeight) {
             // Show animation
             showLoading()
-            loadMoreItems()
+            // Load new batch
             loadData()
+            // Get ads
+            getAds()
+          } else {
+            // Hide animation
+            hideLoading()
           }
         })
+        // Get div and show animation
         const loading = document.querySelector('.loading')
+        function getAds() {
+          // let random = Math.floor(Math.random() * 15)
+          var nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],//all numbers to be randomized
+            ranNums = [],
+            i = nums.length,
+            j = 0;
+
+          while (i--) {
+            j = Math.floor(Math.random() * (i + 1));
+            ranNums.push(nums[j]);
+            nums.splice(j, 1);
+          }
+          let img = document.createElement('img')
+          img.src = `/ads/?r=${random}`
+          console.log(random)
+          document.querySelector('.ads').appendChild(img)
+        }
+        function hideLoading() {
+          loading.classList.remove('show')
+        }
         function showLoading() {
           loading.classList.add('show')
         }
-        // Hide the loading animation
-        loading.classList.remove('show')
-        // const indexOfLastPost = this.state.currentPage * this.state.postPerPage
-        // const indexOfFirstPost = indexOfLastPost - this.state.postPerPage
-        // const currentPosts = this.state.items.slice(indexOfFirstPost, indexOfLastPost)
-      }
-      componentDidUpdate() {
-        // console.log(this.state.indexOfFirstPost, 'first post')
-        // console.log(this.state.indexOfLastPost, 'last post')
+        if (this.state.currentPosts === 500) {
+          let p = document.createElement("p")
+          p.innerText = 'End Of Catalogue'
+          document.querySelector('.end').appendChild(p)
+        }
       }
       render() {
         return (
           <div className="content row">
-            <div className="row">
+            <div className="row select">
               <select className="column">
-                <option value="price">Price</option>
-                <option value="size">Size</option>
-                <option value="id">Id</option>
-              </select>
-              <select className="column">
+                <option value="">All</option>
                 <option value="price">Price</option>
                 <option value="size">Size</option>
                 <option value="id">Id</option>
@@ -133,7 +125,8 @@
                   <li className="product-size">
                     <div className="product">
                       <div className="item-face" style={{ fontSize: item.size * 1.5 }}>{item.face}</div>
-                      <div className="product-date">Date:{item.date}</div>
+
+                      <div className="product-date">Date:&nbsp;{(item.date.slice(8, 10)) === Date(3) ? '3 Days Ago' : item.date.slice(0, 25)}</div>
                       <div className="product-price">Price: ${item.price}</div>
                       <div className="product-s">Size:{item.size}</div>
                     </div>
@@ -141,7 +134,12 @@
                 </ul>
               ))
             }
-
+            <div className="row">
+              <div className="ads"></div>
+            </div>
+            <div className="row">
+              <div className="end"></div>
+            </div>
             <div className="loading">
               <div className="ball"></div>
               <div className="ball"></div>

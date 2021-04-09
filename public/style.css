@@ -72,7 +72,7 @@ a:hover {
 .products li {
   list-style-type: none;
   padding: 0;
-  flex: 0 1 21vw;
+  flex: 0 1 30vw;
   margin: 1rem;
   width: 25vw;
   border-bottom: 0.1rem #c0c0c0 solid;
@@ -81,6 +81,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
 }
 .product-date {
   font-size: 2rem;
@@ -120,6 +121,11 @@ a:hover {
 
 .burguer {
   padding: 0.5rem;
+}
+
+/* Filter */
+.select {
+  padding: 10vh;
 }
 
 /* Media queries */
@@ -168,4 +174,10 @@ a:hover {
   50% {
     transform: translateY(-10px);
   }
+}
+
+/* Ads div */
+.ads {
+  padding: 2vh;
+  margin-left: 9vh;
 }
